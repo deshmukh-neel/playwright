@@ -28,7 +28,7 @@ import { Worker } from './worker';
 import { Events } from './events';
 import { TimeoutSettings } from '../common/timeoutSettings';
 import { Waiter } from './waiter';
-import type { Headers, WaitForEventOptions, BrowserContextOptions, StorageState, LaunchOptions } from './types';
+import type { Headers, WaitForEventOptions, BrowserContextOptions, LaunchOptions, StorageState } from './types';
 import { type URLMatch, headersObjectToArray, isRegExp, isString, urlMatchesEqual, mkdirIfNeeded } from '../utils';
 import type * as api from '../../types/types';
 import type * as structs from '../../types/structs';
@@ -425,8 +425,8 @@ export class BrowserContext extends ChannelOwner<channels.BrowserContextChannel>
     });
   }
 
-  async storageState(options: { path?: string } = {}): Promise<StorageState> {
-    const state = await this._channel.storageState();
+  async storageState(options: { path?: string, indexedDB?: boolean } = {}): Promise<StorageState> {
+    const state = await this._channel.storageState({ indexedDB: options.indexedDB });
     if (options.path) {
       await mkdirIfNeeded(options.path);
       await fs.promises.writeFile(options.path, JSON.stringify(state, undefined, 2), 'utf8');
@@ -537,6 +537,7 @@ export async function prepareBrowserContextParams(options: BrowserContextOptions
     colorScheme: options.colorScheme === null ? 'no-override' : options.colorScheme,
     reducedMotion: options.reducedMotion === null ? 'no-override' : options.reducedMotion,
     forcedColors: options.forcedColors === null ? 'no-override' : options.forcedColors,
+    contrast: options.contrast === null ? 'no-override' : options.contrast,
     acceptDownloads: toAcceptDownloadsProtocol(options.acceptDownloads),
     clientCertificates: await toClientCertificatesProtocol(options.clientCertificates),
   };

@@ -260,8 +260,8 @@ export class APIRequestContext extends ChannelOwner<channels.APIRequestContextCh
     });
   }
 
-  async storageState(options: { path?: string } = {}): Promise<StorageState> {
-    const state = await this._channel.storageState();
+  async storageState(options: { path?: string, indexedDB?: boolean } = {}): Promise<StorageState> {
+    const state = await this._channel.storageState({ indexedDB: options.indexedDB });
     if (options.path) {
       await mkdirIfNeeded(options.path);
       await fs.promises.writeFile(options.path, JSON.stringify(state, undefined, 2), 'utf8');
@@ -416,8 +416,10 @@ function objectToArray(map?: { [key: string]: any }): NameValue[] | undefined {
   if (!map)
     return undefined;
   const result = [];
-  for (const [name, value] of Object.entries(map))
-    result.push({ name, value: String(value) });
+  for (const [name, value] of Object.entries(map)) {
+    if (value !== undefined)
+      result.push({ name, value: String(value) });
+  }
   return result;
 }
 

@@ -271,9 +271,40 @@ export type NameValue = {
   value: string,
 };
 
+export type IndexedDBDatabase = {
+  name: string,
+  version: number,
+  stores: {
+    name: string,
+    autoIncrement: boolean,
+    keyPath?: string,
+    keyPathArray?: string[],
+    records: {
+      key?: any,
+      keyEncoded?: any,
+      value?: any,
+      valueEncoded?: any,
+    }[],
+    indexes: {
+      name: string,
+      keyPath?: string,
+      keyPathArray?: string[],
+      multiEntry: boolean,
+      unique: boolean,
+    }[],
+  }[],
+};
+
+export type SetOriginStorage = {
+  origin: string,
+  localStorage: NameValue[],
+  indexedDB?: IndexedDBDatabase[],
+};
+
 export type OriginStorage = {
   origin: string,
   localStorage: NameValue[],
+  indexedDB: IndexedDBDatabase[],
 };
 
 export type SerializedError = {
@@ -315,7 +346,7 @@ export interface APIRequestContextChannel extends APIRequestContextEventTarget, 
   fetch(params: APIRequestContextFetchParams, metadata?: CallMetadata): Promise<APIRequestContextFetchResult>;
   fetchResponseBody(params: APIRequestContextFetchResponseBodyParams, metadata?: CallMetadata): Promise<APIRequestContextFetchResponseBodyResult>;
   fetchLog(params: APIRequestContextFetchLogParams, metadata?: CallMetadata): Promise<APIRequestContextFetchLogResult>;
-  storageState(params?: APIRequestContextStorageStateParams, metadata?: CallMetadata): Promise<APIRequestContextStorageStateResult>;
+  storageState(params: APIRequestContextStorageStateParams, metadata?: CallMetadata): Promise<APIRequestContextStorageStateResult>;
   disposeAPIResponse(params: APIRequestContextDisposeAPIResponseParams, metadata?: CallMetadata): Promise<APIRequestContextDisposeAPIResponseResult>;
   dispose(params: APIRequestContextDisposeParams, metadata?: CallMetadata): Promise<APIRequestContextDisposeResult>;
 }
@@ -371,8 +402,12 @@ export type APIRequestContextFetchLogOptions = {
 export type APIRequestContextFetchLogResult = {
   log: string[],
 };
-export type APIRequestContextStorageStateParams = {};
-export type APIRequestContextStorageStateOptions = {};
+export type APIRequestContextStorageStateParams = {
+  indexedDB?: boolean,
+};
+export type APIRequestContextStorageStateOptions = {
+  indexedDB?: boolean,
+};
 export type APIRequestContextStorageStateResult = {
   cookies: NetworkCookie[],
   origins: OriginStorage[],
@@ -610,7 +645,7 @@ export type PlaywrightNewRequestParams = {
   timeout?: number,
   storageState?: {
     cookies?: NetworkCookie[],
-    origins?: OriginStorage[],
+    origins?: SetOriginStorage[],
   },
   tracesDir?: string,
 };
@@ -641,7 +676,7 @@ export type PlaywrightNewRequestOptions = {
   timeout?: number,
   storageState?: {
     cookies?: NetworkCookie[],
-    origins?: OriginStorage[],
+    origins?: SetOriginStorage[],
   },
   tracesDir?: string,
 };
@@ -1006,6 +1041,7 @@ export type BrowserTypeLaunchPersistentContextParams = {
   reducedMotion?: 'reduce' | 'no-preference' | 'no-override',
   forcedColors?: 'active' | 'none' | 'no-override',
   acceptDownloads?: 'accept' | 'deny' | 'internal-browser-default',
+  contrast?: 'no-preference' | 'more' | 'no-override',
   baseURL?: string,
   recordVideo?: {
     dir: string,
@@ -1086,6 +1122,7 @@ export type BrowserTypeLaunchPersistentContextOptions = {
   reducedMotion?: 'reduce' | 'no-preference' | 'no-override',
   forcedColors?: 'active' | 'none' | 'no-override',
   acceptDownloads?: 'accept' | 'deny' | 'internal-browser-default',
+  contrast?: 'no-preference' | 'more' | 'no-override',
   baseURL?: string,
   recordVideo?: {
     dir: string,
@@ -1201,6 +1238,7 @@ export type BrowserNewContextParams = {
   reducedMotion?: 'reduce' | 'no-preference' | 'no-override',
   forcedColors?: 'active' | 'none' | 'no-override',
   acceptDownloads?: 'accept' | 'deny' | 'internal-browser-default',
+  contrast?: 'no-preference' | 'more' | 'no-override',
   baseURL?: string,
   recordVideo?: {
     dir: string,
@@ -1220,7 +1258,7 @@ export type BrowserNewContextParams = {
   },
   storageState?: {
     cookies?: SetNetworkCookie[],
-    origins?: OriginStorage[],
+    origins?: SetOriginStorage[],
   },
 };
 export type BrowserNewContextOptions = {
@@ -1267,6 +1305,7 @@ export type BrowserNewContextOptions = {
   reducedMotion?: 'reduce' | 'no-preference' | 'no-override',
   forcedColors?: 'active' | 'none' | 'no-override',
   acceptDownloads?: 'accept' | 'deny' | 'internal-browser-default',
+  contrast?: 'no-preference' | 'more' | 'no-override',
   baseURL?: string,
   recordVideo?: {
     dir: string,
@@ -1286,7 +1325,7 @@ export type BrowserNewContextOptions = {
   },
   storageState?: {
     cookies?: SetNetworkCookie[],
-    origins?: OriginStorage[],
+    origins?: SetOriginStorage[],
   },
 };
 export type BrowserNewContextResult = {
@@ -1336,6 +1375,7 @@ export type BrowserNewContextForReuseParams = {
   reducedMotion?: 'reduce' | 'no-preference' | 'no-override',
   forcedColors?: 'active' | 'none' | 'no-override',
   acceptDownloads?: 'accept' | 'deny' | 'internal-browser-default',
+  contrast?: 'no-preference' | 'more' | 'no-override',
   baseURL?: string,
   recordVideo?: {
     dir: string,
@@ -1355,7 +1395,7 @@ export type BrowserNewContextForReuseParams = {
   },
   storageState?: {
     cookies?: SetNetworkCookie[],
-    origins?: OriginStorage[],
+    origins?: SetOriginStorage[],
   },
 };
 export type BrowserNewContextForReuseOptions = {
@@ -1402,6 +1442,7 @@ export type BrowserNewContextForReuseOptions = {
   reducedMotion?: 'reduce' | 'no-preference' | 'no-override',
   forcedColors?: 'active' | 'none' | 'no-override',
   acceptDownloads?: 'accept' | 'deny' | 'internal-browser-default',
+  contrast?: 'no-preference' | 'more' | 'no-override',
   baseURL?: string,
   recordVideo?: {
     dir: string,
@@ -1421,7 +1462,7 @@ export type BrowserNewContextForReuseOptions = {
   },
   storageState?: {
     cookies?: SetNetworkCookie[],
-    origins?: OriginStorage[],
+    origins?: SetOriginStorage[],
   },
 };
 export type BrowserNewContextForReuseResult = {
@@ -1527,7 +1568,7 @@ export interface BrowserContextChannel extends BrowserContextEventTarget, EventT
   setNetworkInterceptionPatterns(params: BrowserContextSetNetworkInterceptionPatternsParams, metadata?: CallMetadata): Promise<BrowserContextSetNetworkInterceptionPatternsResult>;
   setWebSocketInterceptionPatterns(params: BrowserContextSetWebSocketInterceptionPatternsParams, metadata?: CallMetadata): Promise<BrowserContextSetWebSocketInterceptionPatternsResult>;
   setOffline(params: BrowserContextSetOfflineParams, metadata?: CallMetadata): Promise<BrowserContextSetOfflineResult>;
-  storageState(params?: BrowserContextStorageStateParams, metadata?: CallMetadata): Promise<BrowserContextStorageStateResult>;
+  storageState(params: BrowserContextStorageStateParams, metadata?: CallMetadata): Promise<BrowserContextStorageStateResult>;
   pause(params?: BrowserContextPauseParams, metadata?: CallMetadata): Promise<BrowserContextPauseResult>;
   enableRecorder(params: BrowserContextEnableRecorderParams, metadata?: CallMetadata): Promise<BrowserContextEnableRecorderResult>;
   newCDPSession(params: BrowserContextNewCDPSessionParams, metadata?: CallMetadata): Promise<BrowserContextNewCDPSessionResult>;
@@ -1760,8 +1801,12 @@ export type BrowserContextSetOfflineOptions = {
 
 };
 export type BrowserContextSetOfflineResult = void;
-export type BrowserContextStorageStateParams = {};
-export type BrowserContextStorageStateOptions = {};
+export type BrowserContextStorageStateParams = {
+  indexedDB?: boolean,
+};
+export type BrowserContextStorageStateOptions = {
+  indexedDB?: boolean,
+};
 export type BrowserContextStorageStateResult = {
   cookies: NetworkCookie[],
   origins: OriginStorage[],
@@ -2063,12 +2108,14 @@ export type PageEmulateMediaParams = {
   colorScheme?: 'dark' | 'light' | 'no-preference' | 'no-override',
   reducedMotion?: 'reduce' | 'no-preference' | 'no-override',
   forcedColors?: 'active' | 'none' | 'no-override',
+  contrast?: 'no-preference' | 'more' | 'no-override',
 };
 export type PageEmulateMediaOptions = {
   media?: 'screen' | 'print' | 'no-override',
   colorScheme?: 'dark' | 'light' | 'no-preference' | 'no-override',
   reducedMotion?: 'reduce' | 'no-preference' | 'no-override',
   forcedColors?: 'active' | 'none' | 'no-override',
+  contrast?: 'no-preference' | 'more' | 'no-override',
 };
 export type PageEmulateMediaResult = void;
 export type PageExposeBindingParams = {
@@ -4761,6 +4808,7 @@ export type AndroidDeviceLaunchBrowserParams = {
   reducedMotion?: 'reduce' | 'no-preference' | 'no-override',
   forcedColors?: 'active' | 'none' | 'no-override',
   acceptDownloads?: 'accept' | 'deny' | 'internal-browser-default',
+  contrast?: 'no-preference' | 'more' | 'no-override',
   baseURL?: string,
   recordVideo?: {
     dir: string,
@@ -4825,6 +4873,7 @@ export type AndroidDeviceLaunchBrowserOptions = {
   reducedMotion?: 'reduce' | 'no-preference' | 'no-override',
   forcedColors?: 'active' | 'none' | 'no-override',
   acceptDownloads?: 'accept' | 'deny' | 'internal-browser-default',
+  contrast?: 'no-preference' | 'more' | 'no-override',
   baseURL?: string,
   recordVideo?: {
     dir: string,

@@ -18,7 +18,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { promisify } from 'util';
 
-import {  monotonicTime, removeFolders } from 'playwright-core/lib/utils';
+import { monotonicTime, removeFolders } from 'playwright-core/lib/utils';
 import { debug } from 'playwright-core/lib/utilsBundle';
 
 import { Dispatcher  } from './dispatcher';
@@ -26,12 +26,12 @@ import { FailureTracker } from './failureTracker';
 import { collectProjectsAndTestFiles, createRootSuite, loadFileSuites, loadGlobalHook } from './loadUtils';
 import { buildDependentProjects, buildTeardownToSetupsMap, filterProjects } from './projectUtils';
 import { applySuggestedRebaselines, clearSuggestedRebaselines } from './rebase';
-import { Suite } from '../common/test';
-import {  createTestGroups } from '../runner/testGroups';
-import {  removeDirAndLogToConsole } from '../util';
 import { TaskRunner } from './taskRunner';
 import { detectChangedTestFiles } from './vcs';
+import { Suite } from '../common/test';
+import { createTestGroups } from '../runner/testGroups';
 import { cacheDir } from '../transform/compilationCache';
+import { removeDirAndLogToConsole } from '../util';
 
 import type { TestGroup } from '../runner/testGroups';
 import type { Matcher } from '../util';

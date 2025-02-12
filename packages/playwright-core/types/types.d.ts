@@ -9351,7 +9351,7 @@ export interface BrowserContext {
              */
             keyEncoded?: Object;
 
-            value: Object;
+            value?: Object;
 
             /**
              * if `value` is not JSON-serializable, this contains an encoded version that preserves types.
@@ -9741,6 +9741,12 @@ export interface Browser {
      * Whether to automatically download all the attachments. Defaults to `true` where all the downloads are accepted.
      */
     acceptDownloads?: boolean;
+
+    /**
+     * An object containing an option to throw an error when API request returns status codes other than 2xx and 3xx. By
+     * default, response object is returned for all status codes.
+     */
+    apiRequestFailsOnErrorStatus?: boolean;
 
     /**
      * When using [page.goto(url[, options])](https://playwright.dev/docs/api/class-page#page-goto),
@@ -10170,7 +10176,7 @@ export interface Browser {
                */
               keyEncoded?: Object;
 
-              value: Object;
+              value?: Object;
 
               /**
                * if `value` is not JSON-serializable, this contains an encoded version that preserves types.
@@ -14807,6 +14813,12 @@ export interface BrowserType<Unused = {}> {
     acceptDownloads?: boolean;
 
     /**
+     * An object containing an option to throw an error when API request returns status codes other than 2xx and 3xx. By
+     * default, response object is returned for all status codes.
+     */
+    apiRequestFailsOnErrorStatus?: boolean;
+
+    /**
      * **NOTE** Use custom browser args at your own risk, as some of them may break Playwright functionality.
      *
      * Additional arguments to pass to the browser instance. The list of Chromium flags can be found
@@ -16697,6 +16709,12 @@ export interface AndroidDevice {
     acceptDownloads?: boolean;
 
     /**
+     * An object containing an option to throw an error when API request returns status codes other than 2xx and 3xx. By
+     * default, response object is returned for all status codes.
+     */
+    apiRequestFailsOnErrorStatus?: boolean;
+
+    /**
      * **NOTE** Use custom browser args at your own risk, as some of them may break Playwright functionality.
      *
      * Additional arguments to pass to the browser instance. The list of Chromium flags can be found
@@ -17543,6 +17561,12 @@ export interface APIRequest {
    */
   newContext(options?: {
     /**
+     * An object containing an option to throw an error when API request returns status codes other than 2xx and 3xx. By
+     * default, response object is returned for all status codes.
+     */
+    apiRequestFailsOnErrorStatus?: boolean;
+
+    /**
      * Methods like
      * [apiRequestContext.get(url[, options])](https://playwright.dev/docs/api/class-apirequestcontext#api-request-context-get)
      * take the base URL into consideration by using the
@@ -17758,7 +17782,7 @@ export interface APIRequest {
                */
               keyEncoded?: Object;
 
-              value: Object;
+              value?: Object;
 
               /**
                * if `value` is not JSON-serializable, this contains an encoded version that preserves types.
@@ -18616,7 +18640,7 @@ export interface APIRequestContext {
              */
             keyEncoded?: Object;
 
-            value: Object;
+            value?: Object;
 
             /**
              * if `value` is not JSON-serializable, this contains an encoded version that preserves types.
@@ -22118,6 +22142,12 @@ export interface BrowserContextOptions {
   acceptDownloads?: boolean;
 
   /**
+   * An object containing an option to throw an error when API request returns status codes other than 2xx and 3xx. By
+   * default, response object is returned for all status codes.
+   */
+  apiRequestFailsOnErrorStatus?: boolean;
+
+  /**
    * When using [page.goto(url[, options])](https://playwright.dev/docs/api/class-page#page-goto),
    * [page.route(url, handler[, options])](https://playwright.dev/docs/api/class-page#page-route),
    * [page.waitForURL(url[, options])](https://playwright.dev/docs/api/class-page#page-wait-for-url),
@@ -22512,7 +22542,7 @@ export interface BrowserContextOptions {
              */
             keyEncoded?: Object;
 
-            value: Object;
+            value?: Object;
 
             /**
              * if `value` is not JSON-serializable, this contains an encoded version that preserves types.

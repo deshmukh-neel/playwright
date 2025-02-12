@@ -21,6 +21,9 @@ Creates new instances of [APIRequestContext].
 ### option: APIRequest.newContext.extraHTTPHeaders = %%-context-option-extrahttpheaders-%%
 * since: v1.16
 
+### option: APIRequest.newContext.apiRequestFailsOnErrorStatus = %%-context-option-apiRequestFailsOnErrorStatus-%%
+* since: v1.51
+
 ### option: APIRequest.newContext.httpCredentials = %%-context-option-httpcredentials-%%
 * since: v1.16
 
@@ -81,7 +84,7 @@ Methods like [`method: APIRequestContext.get`] take the base URL into considerat
         - `records` <[Array]<[Object]>>
           - `key` ?<[Object]>
           - `keyEncoded` ?<[Object]> if `key` is not JSON-serializable, this contains an encoded version that preserves types.
-          - `value` <[Object]>
+          - `value` ?<[Object]>
           - `valueEncoded` ?<[Object]> if `value` is not JSON-serializable, this contains an encoded version that preserves types.
 
 Populates context with given storage state. This option can be used to initialize context with logged-in information

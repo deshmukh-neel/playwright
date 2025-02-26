@@ -72,7 +72,7 @@ const CopyPromptButton: React.FC<{
       value={prompt}
       description='Copy as Prompt'
       copiedDescription={<>Copied <span className='codicon codicon-copy' style={{ marginLeft: '5px' }}/></>}
-      style={{ width: '90px', justifyContent: 'center' }}
+      style={{ width: '120px', justifyContent: 'center' }}
     />
   );
 };
@@ -101,7 +101,7 @@ function Error({ message, error, errorId, sdkLanguage, pageSnapshot, revealInSou
   const [showLLM, setShowLLM] = React.useState(false);
   const llmAvailable = useIsLLMAvailable();
   const gitCommitInfo = useGitCommitInfo();
-  const diff = gitCommitInfo?.['pull.diff'] ?? gitCommitInfo?.['revision.diff'];
+  const diff = gitCommitInfo?.pull_request?.diff ?? gitCommitInfo?.revision?.diff;
 
   let location: string | undefined;
   let longLocation: string | undefined;
